@@ -26,6 +26,6 @@ function Pipe:render()
     self.x, -- x start
     (self.orientation == 'top' and self.y + PIPE_HEIGHT or self.y), -- y start
     0, -- rotation
-    1, -- X scale
+    0.8, -- X scale
     self.orientation == 'top' and -1 or 1) -- Y scale if -1 it will mirror flip
 end

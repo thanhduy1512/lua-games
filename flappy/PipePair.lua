@@ -2,7 +2,7 @@ PipePair = Class {}
 
 local PIPE_IMAGE = love.graphics.newImage('pipe.png')
 
-local GAP_HEIGHT = 90
+local GAP_HEIGHT = 100
 
 function PipePair:init(y)
     self.x = VIRTUAL_WIDTH + 32
