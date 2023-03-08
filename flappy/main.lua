@@ -35,6 +35,8 @@ local GROUND_SCROLL_SPEED = 60
 -- local BACKGROUND_LOOPING_POINT = 1157 - VIRTUAL_WIDTH
 local BACKGROUND_LOOPING_POINT = 578
 
+local PAUSE = false
+
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
@@ -98,6 +100,14 @@ function love.keypressed(key)
     if key == 'escape' then
         love.event.quit()
     end
+
+    if love.keyboard.wasPressed('p') then
+        PAUSE = true
+    end
+
+    if PAUSE and (love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return')) then
+        PAUSE = false
+    end
 end
 
 function love.mousepressed(x, y, button)
@@ -117,7 +127,11 @@ function love.update(dt)
 
     groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH
 
-    gStateMachine:update(dt)
+    if PAUSE then
+        -- no update require
+    else
+        gStateMachine:update(dt)
+    end
 
     love.keyboard.keysPressed = {}
     love.mouse.buttonsPressed = {}
@@ -127,6 +141,13 @@ function love.draw()
     push:start()
 
     love.graphics.draw(background, -backgroundScroll, 0)
+
+    if PAUSE then
+        love.graphics.setFont(hugeFont)
+        love.graphics.printf('Pausing', 0, 60, VIRTUAL_WIDTH, 'center')
+        love.graphics.setFont(smallFont)
+        love.graphics.printf('Press Enter to Continue', 0, 120, VIRTUAL_WIDTH, 'center')
+    end
 
     gStateMachine:render()
 
